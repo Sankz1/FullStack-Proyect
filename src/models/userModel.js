@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+// Schema to create a user
 const userSchema = mongoose.Schema({
  username:{
      type: String,
@@ -15,4 +16,4 @@ const userSchema = mongoose.Schema({
      required : true,
  }
     })
-export default mongoose.model('User',userSchema) // Metohd
+export default mongoose.model('User',userSchema) // Metohd to use the data
