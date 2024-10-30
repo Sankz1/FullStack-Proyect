@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 // Schema to create a user
-const userSchema = mongoose.Schema({
+const userSchema = new  mongoose.Schema({
  username:{
      type: String,
-     required : true, //Requirment
+     required : true, //Requirement
      trim : true      //Delete spaces
  },
- contactemail:{
+ contactEmail:{
      type: String,
      required :true,
      unique: true,  //Unique validation
@@ -16,4 +16,4 @@ const userSchema = mongoose.Schema({
      required : true,
  }
     })
-export default mongoose.model('User',userSchema) // Metohd to use the data
+export default mongoose.model('Users',userSchema) // Metohd to use the data
