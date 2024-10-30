@@ -8,8 +8,8 @@ export const  register = async (request, resp) => {
             password,
             contactEmail
         })
-        await newUser.save()
-        resp.send('registered')
+const userSave =    await newUser.save()
+        resp.send(userSave)
     } catch(error){
         console.log(error)
     }
