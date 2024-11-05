@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true, //Requirement
       trim: true, //Delete spaces
+      unique: true,
     },
     contactEmail: {
       type: String,
@@ -15,6 +16,16 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+      trim: true,
     },
   },
   {

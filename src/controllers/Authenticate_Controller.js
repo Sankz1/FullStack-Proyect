@@ -1,10 +1,10 @@
 //Controllers of routes
 import User from "../models/userModel.js";
 import crypt from "bcryptjs";
-import JWT from "jsonwebtoken";
+import { accessToken } from "../libs/webToken.js";
 
 export const register = async (request, resp) => {
-  const { contactEmail, username, password } = request.body;
+  const { contactEmail, username, password, name, lastname } = request.body;
   try {
     const passwordEncrypted = await crypt.hash(password, 10);
 
@@ -12,36 +12,19 @@ export const register = async (request, resp) => {
       username,
       password: passwordEncrypted,
       contactEmail,
+      name,
+      lastname,
     });
 
     const userSave = await newUser.save();
-    JWT.sign(
-      {
-        id: userSave._id,
-      },
-      "test123",
-      {
-        expiresIn: "1d",
-      },
-      (err, token) => {
-        if (err) console.log(err);
-        resp.cookie("token", token);
-        resp.statusCode = 200;
-        resp.json({
-          message: "User created successfully",
-        });
-      },
-    );
-
-    /*    resp.json({
-                                                          id: userSave._id,
-                                                          username: userSave.username,
-                                                          email: userSave.contactEmail,
-                                                        });*/
-  } catch (error) {
-    console.log(error);
-    resp.statusCode = 400;
+    const token = await accessToken({ id: userSave._id });
+    resp.cookie("token", token);
+    resp.statusCode = 200;
     resp.json({
+      message: "User created successfully",
+    });
+  } catch (error) {
+    resp.status(400).json({
       message: "The user is already registered",
     });
   }
