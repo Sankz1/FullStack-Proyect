@@ -29,6 +29,30 @@ export const register = async (request, resp) => {
     });
   }
 };
-export const login = (request, resp) => {
-  resp.send("logged");
+export const login = async (request, resp) => {
+  const { username, password }  = request.body;
+  try {
+    const foundUser = await User.findOne({username});
+    if(!foundUser) return resp.status(401).json({message: "User not found"})
+    const passwordCompare = await crypt.compare(password, foundUser.password);
+    if(!passwordCompare) return resp.status(401).json({message: "Invalid credentials"})
+
+    const token = await accessToken({ id: foundUser._id });
+    resp.cookie("token", token);
+    resp.statusCode = 200;
+    resp.json({
+      message: "Logged Successfully",
+    });
+  } catch (error) {
+    resp.status(400).json({
+      message: "The user is not on the database",
+    });
+  }
 };
+export const logout =  (request, resp) => {
+  resp.cookie("token", " ",{
+    expires: new Date(0),
+  });
+  return resp.sendStatus(200)
+}
+
