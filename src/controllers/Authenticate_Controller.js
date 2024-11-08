@@ -55,7 +55,6 @@ export const logout =  (request, resp) => {
   });
   return resp.sendStatus(200)
 }
-
 export const profile =async (request, resp) => {
   const userFounded = await User.findById(request.decodedUser.id)
 
