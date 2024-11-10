@@ -4,6 +4,11 @@ const tasksSchema =new mongoose.Schema({
         type: String,
         required: true,
     },
+    reason: {
+        type: String,
+        required: true,
+
+    },
     description: {
         type: String,
         required: true,

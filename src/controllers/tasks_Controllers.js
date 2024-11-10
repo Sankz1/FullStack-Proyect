@@ -1,10 +1,11 @@
 import Task from "../models/taskModels.js";
 
 export const postTask= async (request,response)=> {
-    const {title,description,date} = request.body;
+    const {title,description,reason,date} = request.body;
  const newTask = new Task({
         title,
         description,
+        reason,
         date,
         user:request.decodedUser.id
     })
