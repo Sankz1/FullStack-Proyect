@@ -1,41 +1,42 @@
 import { useForm } from "react-hook-form";
+import { requestRegister } from "../api/auth.js";
 
 function registerPage() {
   const { register, handleSubmit } = useForm();
+  const onSubmit = handleSubmit(async (values) => {
+    const resp = await requestRegister(values);
+    console.log(resp);
+  });
   return (
     <div className="bg-zinc-900 max-w-md p-10 rounded-md">
-      <form
-        onSubmit={handleSubmit((values) => {
-          console.log(values);
-        })}
-      >
+      <form onSubmit={onSubmit}>
         <input
           type="text"
-          {...register("Firstname", { required: true })}
+          {...register("name", { required: true })}
           className="w-full bg-zinc-700 text-amber-50 px-4 py-2 rounded-md my-2.5"
           placeholder="First name"
         />
         <input
           type="text"
-          {...register("Lastname", { required: true })}
+          {...register("lastname", { required: true })}
           className="w-full bg-zinc-700 text-amber-50 px-4 py-2 rounded-md my-2.5"
           placeholder="Last name"
         />
         <input
           type="email"
-          {...register("Email", { required: true })}
+          {...register("contactEmail", { required: true })}
           className="w-full bg-zinc-700 text-amber-50 px-4 py-2 rounded-md my-2.5"
           placeholder="Email"
         />
         <input
           type="text"
-          {...register("Username", { required: true, min: 4 })}
+          {...register("username", { required: true, min: 4 })}
           className="w-full bg-zinc-700 text-amber-50 px-4 py-2 rounded-md my-2.5"
           placeholder="Username"
         />
         <input
           type="password"
-          {...register("Password", { required: true, min: 6 })}
+          {...register("password", { required: true, min: 6 })}
           className="w-full bg-zinc-700 text-amber-50 px-4 py-2 rounded-md my-2.5"
           placeholder="Password"
         />
