@@ -4,6 +4,7 @@ import { SECRET_TOKEN } from "../config.js";
 export function accessToken(payload) {
   return new Promise((resolve, reject) => {
     // If all is good, Resolve else Reject
+
     JWT.sign(
       payload,
       SECRET_TOKEN,
