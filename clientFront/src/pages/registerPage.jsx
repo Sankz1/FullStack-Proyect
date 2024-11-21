@@ -9,7 +9,7 @@ function registerPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { signIn, isAuthenticated } = useAuthContext();
+  const { signIn, isAuthenticated, errors: registerErrors } = useAuthContext();
   const navigate = useNavigate();
   useEffect(() => {
     if (isAuthenticated) navigate("/task");
@@ -19,6 +19,9 @@ function registerPage() {
   });
   return (
     <div className="bg-zinc-900 max-w-md p-10 rounded-md">
+      {registerErrors.map((error, i) => (
+        <div className="bg-red-600 p-2 text-amber-50">{error}</div>
+      ))}
       <form onSubmit={onSubmit}>
         <input
           type="text"

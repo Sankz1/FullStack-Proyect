@@ -10,8 +10,9 @@ export const useAuthContext = () => {
   return context;
 };
 export const AuthProvider = ({ children }) => {
-  const [User, setUser] = useState(null);
+  const [User, setUser] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [errors, setErrors] = useState([]);
   const signIn = async (User) => {
     try {
       const resp = await requestRegister(User);
@@ -19,7 +20,8 @@ export const AuthProvider = ({ children }) => {
       setUser(resp.data);
       setIsAuthenticated(true);
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
+      setErrors(err.response.data);
     }
   };
   return (
@@ -28,6 +30,7 @@ export const AuthProvider = ({ children }) => {
         signIn,
         User,
         isAuthenticated,
+        errors,
       }}
     >
       {children}
