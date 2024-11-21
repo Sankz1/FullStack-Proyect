@@ -6,6 +6,9 @@ import { accessToken } from "../libs/webToken.js";
 export const register = async (request, resp) => {
   const { contactEmail, username, password, name, lastname } = request.body;
   try {
+    const userFound = await User.findOne({ contactEmail });
+    if (userFound) return resp.status(400).json(["The email already exist"]);
+
     const passwordEncrypted = await crypt.hash(password, 10);
 
     const newUser = new User({
