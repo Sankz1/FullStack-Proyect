@@ -30,12 +30,13 @@ export const register = async (request, resp) => {
   }
 };
 export const login = async (request, resp) => {
-  const { username, password }  = request.body;
+  const { username, password } = request.body;
   try {
-    const foundUser = await User.findOne({username});
-    if(!foundUser) return resp.status(401).json({message: "User not found"})
+    const foundUser = await User.findOne({ username });
+    if (!foundUser) return resp.status(401).json({ message: "User not found" });
     const passwordCompare = await crypt.compare(password, foundUser.password);
-    if(!passwordCompare) return resp.status(401).json({message: "Invalid credentials"})
+    if (!passwordCompare)
+      return resp.status(401).json({ message: "Invalid credentials" });
 
     const token = await accessToken({ id: foundUser._id });
     resp.cookie("token", token);
@@ -49,20 +50,20 @@ export const login = async (request, resp) => {
     });
   }
 };
-export const logout =  (request, resp) => {
-  resp.cookie("token", " ",{
+export const logout = (request, resp) => {
+  resp.cookie("token", " ", {
     expires: new Date(0),
   });
-  return resp.sendStatus(200)
-}
-export const profile =async (request, resp) => {
-  const userFounded = await User.findById(request.decodedUser.id)
+  return resp.sendStatus(200);
+};
+export const profile = async (request, resp) => {
+  const userFounded = await User.findById(request.decodedUser.id);
 
   if (!userFounded) {
-    return resp.status(400).json({message: "User not found"})
+    return resp.status(400).json({ message: "User not found" });
   }
   return resp.status(200).json({
     id: userFounded._id,
-    username: userFounded.username
-  })
-}
+    username: userFounded.username,
+  });
+};
